@@ -1,0 +1,11 @@
+polars>=1.20
+pyarrow>=17
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+lightgbm>=4.5
+joblib>=1.4
+PyYAML>=6.0
+typer>=0.12
+rich>=13.9
+pytest>=8.3
