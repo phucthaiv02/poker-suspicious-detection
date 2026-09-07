@@ -1,0 +1,59 @@
+seed: 2026
+n_splits: 5
+
+paths:
+  data_dir: data
+  artifacts_dir: artifacts
+  players: players.parquet
+  hands: hands.parquet
+  seats: seats.parquet
+  actions: actions.parquet
+  development_labels: development_labels.csv
+  development_evidence: development_evidence.csv
+  evaluation_pairs: evaluation_pairs.csv
+  sample_submission: sample_submission.csv
+
+schema_overrides: {}
+
+features:
+  action_numeric_aggs: [mean, max, sum, std]
+  seat_numeric_aggs: true
+  top_k: [1, 2, 3, 5, 10]
+  action_types: [fold, check, call, bet, raise, all_in, all-in]
+
+models:
+  evidence:
+    learning_rate: 0.04
+    num_leaves: 31
+    max_depth: -1
+    min_data_in_leaf: 40
+    feature_fraction: 0.85
+    bagging_fraction: 0.85
+    bagging_freq: 1
+    lambda_l1: 0.2
+    lambda_l2: 1.0
+    n_estimators: 1200
+  pair:
+    learning_rate: 0.035
+    num_leaves: 31
+    min_data_in_leaf: 20
+    feature_fraction: 0.9
+    bagging_fraction: 0.9
+    bagging_freq: 1
+    lambda_l1: 0.1
+    lambda_l2: 1.0
+    n_estimators: 1500
+  behavior:
+    learning_rate: 0.04
+    num_leaves: 23
+    min_data_in_leaf: 15
+    feature_fraction: 0.9
+    bagging_fraction: 0.9
+    bagging_freq: 1
+    lambda_l2: 1.0
+    n_estimators: 1000
+
+behavior:
+  none_threshold_grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40]
+  known_confidence_grid: [0.30, 0.40, 0.50, 0.60, 0.70]
+  disclosed_classes: [directed_transfer, soft_play, coordinated_isolation]
